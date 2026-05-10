@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Matthew Asmolo | Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red:   #9b1c2e;
+      --gold:  #c8943a;
+      --gold2: #e8b86d;
+      --dark:  #0a0a0a;
+      --white: #ffffff;
+      --off:   #c8c0b4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Raleway', sans-serif; background: var(--dark); color: var(--white); overflow-x: hidden; }
+
+    /* PRELOADER / SPLASH SCREEN STYLES */
+    #preloader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 30000;
+      transition: opacity 0.8s ease, visibility 0.8s;
+    }
+    .preloader-content { text-align: center; width: 80%; max-width: 600px; }
+    
+    .welcome-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.5rem, 5vw, 3.5rem);
+      letter-spacing: 6px;
+      color: var(--white);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid var(--gold);
+      animation: blinkCursor 0.8s step-end infinite;
+    }
+
+    @keyframes blinkCursor {
+      from, to { border-color: transparent }
+      50% { border-color: var(--gold); }
+    }
+
+    .loader-line {
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      margin: 0 auto;
+      animation: growLine 2s ease-in-out forwards;
+    }
+    .preloader-hidden { opacity: 0 !important; visibility: hidden !important; }
+
+    @keyframes growLine { 0% { width: 0; } 100% { width: 100%; } }
+
+    /* GOLD LEFT BORDER */
+    body::before {
+      content: '';
+      position: fixed;
+      left: 0; top: 0;
+      width: 6px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--gold2), var(--red), var(--gold));
+      z-index: 10000;
+    }
+
+    /* GLOBAL FIXED BACKGROUND - FIXED: Added pointer-events and transform to prevent scroll-jump */
+    .global-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      z-index: -2;
+      opacity: 0.4;
+      pointer-events: none;
+      transform: translate3d(0,0,0);
+    }
+
+    /* DARK OVERLAY */
+    .global-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.0) 30%);
+      z-index: -1;
+    }
+
+    /* NAVBAR - FIXED: Added mobile padding and centering adjustments */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+      padding: 12px 1.5rem;
+      background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+      transition: 0.4s;
+    }
+    
+    @media (min-width: 992px) {
+      .navbar { padding: 18px 3rem 18px 3.5rem; }
+    }
+
+    .navbar.scrolled { background: rgba(0,0,0,0.95) !important; border-bottom: 1px solid rgba(200,148,58,0.2); }
+    
+    .navbar-brand { 
+      font-family: 'Bebas Neue', sans-serif; 
+      font-size: 1.1rem; 
+      letter-spacing: 3px; 
+      color: var(--white) !important;
+      display: flex;
+      align-items: center;
+      gap: 10px; 
+      text-decoration: none;
+    }
+    .navbar-brand span { color: var(--gold); }
+    .navbar-brand img { height: 45px; width: 45px; }
+
+    @media (min-width: 992px) {
+      .navbar-brand { font-size: 1.3rem; }
+      .navbar-brand img { height: 75px; width: 75px; }
+    }
+
+    .navbar-toggler { border-color: rgba(200, 148, 58, 0.5); }
+    .navbar-toggler-icon { filter: invert(1); }
+
+    .navbar-nav .nav-link { font-size: 0.72rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.75) !important; padding: 10px 18px !important; transition: 0.2s; }
+    .navbar-nav .nav-link:hover { color: var(--gold) !important; }
+
+    /* ANIMATIONS */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .nav-animate { opacity: 0; animation: fadeInDown 0.8s ease forwards; }
+    .navbar-brand.nav-animate { animation-delay: 0.1s; }
+    .nav-item:nth-child(1) { animation-delay: 0.2s; }
+    .nav-item:nth-child(2) { animation-delay: 0.3s; }
+    .nav-item:nth-child(3) { animation-delay: 0.4s; }
+    .nav-item:nth-child(4) { animation-delay: 0.5s; }
+    .nav-item:nth-child(5) { animation-delay: 0.6s; }
+
+    .hero-animate { opacity: 0; animation: fadeInUp 1s ease forwards; }
+    .hero-eyebrow.hero-animate { animation-delay: 3.2s; } 
+    .hero-headline.hero-animate { animation-delay: 3.4s; }
+    .hero-sub.hero-animate { animation-delay: 3.6s; }
+    .hero-sub2.hero-animate { animation-delay: 3.8s; }
+    .hero-btns.hero-animate { animation-delay: 4.0s; }
+
+    section { position: relative; width: 100%; background: transparent; }
+    .hero { height: 100vh; min-height: 600px; display: flex; align-items: center; }
+    .hero-content { padding-left: 1.5rem; padding-right: 1.5rem; max-width: 650px; }
+    
+    @media (min-width: 992px) {
+      .hero-content { padding-left: 3.5rem; }
+    }
+
+    .hero-eyebrow { font-size: 0.65rem; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 12px; }
+    .hero-eyebrow::before { content:''; width:32px; height:1px; background:var(--gold); }
+    .hero-headline { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.5rem, 8vw, 7.5rem); line-height: 0.92; letter-spacing: 2px; margin-bottom: 1.4rem; }
+    .hero-headline .line1 { color: var(--red); display: block; }
+    .hero-headline .line2 { color: var(--gold); display: block; }
+    .hero-sub { font-size: 0.78rem; letter-spacing: 3px; text-transform: uppercase; color: var(--off); margin-bottom: 0.3rem; }
+    .hero-sub2 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-style: italic; color: var(--gold2); letter-spacing: 1px; margin-bottom: 2.2rem; }
+
+    .btn-gold { background: linear-gradient(90deg, var(--gold), var(--gold2)); color: #000; font-size: 0.68rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 13px 30px; text-decoration: none; display: inline-block; transition: 0.3s; border: none; cursor: pointer; }
+    .btn-outline-gold { border: 1px solid var(--gold); color: var(--gold); font-size: 0.68rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 12px 28px; text-decoration: none; display: inline-block; transition: 0.3s; }
+    .btn-gold:hover, .btn-outline-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); color: #000; }
+
+    /* SECTION WRAP - FIXED: Balanced padding for mobile edges */
+    .section-wrap { max-width: 1100px; margin: 0 auto; padding: 80px 1.5rem; }
+    @media (min-width: 992px) {
+      .section-wrap { padding: 120px 3rem; }
+    }
+
+    .section-label { font-size: 0.6rem; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content:''; width:28px; height:1px; background:var(--gold); }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 3px; margin-bottom: 3rem; line-height: 1; }
+    .section-title span { color: var(--gold); }
+
+    .skill-card, .project-card, .stat-box, .contact-info, .contact-form {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(200, 148, 58, 0.15);
+      padding: 30px;
+      transition: 0.3s;
+    }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: flex-start; }
+    
+    /* ABOUT IMAGE - FIXED: Forced perfect 1:1 ratio for circle */
+    .about-image-container { 
+      padding: 0; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      position: relative; 
+      width: 400px;
+      height: 400px;
+      margin: 0 auto; 
+    }
+    
+    .about-image { 
+      width: 100%; 
+      height: 100%; 
+      display: block; 
+      object-fit: cover; 
+      border-radius: 50% !important;
+      border: 4px solid var(--gold);
+      transition: 0.4s ease;
+    }
+
+    .about-image-container:hover .about-image {
+      box-shadow: 0 0 40px rgba(200, 148, 58, 0.4);
+      transform: scale(1.03);
+    }
+
+    .about-text p { font-size: 0.95rem; line-height: 1.9; color: var(--off); margin-bottom: 1.5rem; }
+    
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+    .stat-box .num { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+    .stat-box .lbl { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--off); }
+
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-tag { font-size: 0.68rem; padding: 6px 14px; border: 1px solid rgba(200,148,58,0.3); color: var(--off); text-transform: uppercase; letter-spacing: 1px; }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .project-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: rgba(200,148,58,0.1); position: absolute; top: 10px; right: 20px; }
+    .ptag { font-size: 0.6rem; padding: 4px 10px; background: rgba(155,28,46,0.2); color: #e88899; border: 1px solid rgba(155,28,46,0.4); text-transform: uppercase; margin-right: 5px; }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 4rem; }
+    .contact-info h3 { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--gold2); font-size: 1.6rem; margin-bottom: 2rem; }
+    .contact-item { margin-bottom: 1.5rem; border-bottom: 1px solid rgba(200,148,58,0.1); padding-bottom: 1rem; }
+    .contact-item .lbl { font-size: 0.6rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
+    .contact-item .val { font-size: 0.9rem; color: var(--off); }
+    
+    .form-control { background: rgba(255,255,255,0.05); border: 1px solid rgba(200,148,58,0.2); color: white; border-radius: 0; padding: 14px; font-size: 0.85rem; }
+    .form-control:focus { background: rgba(255,255,255,0.08); border-color: var(--gold); box-shadow: none; color: white; }
+
+    footer { background: rgba(0,0,0,0.9); border-top: 1px solid rgba(200,148,58,0.2); text-align: center; padding: 30px; font-size: 0.7rem; letter-spacing: 2px; color: var(--off); text-transform: uppercase; position: relative; z-index: 2; }
+    footer span { color: var(--gold); }
+
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+      .about-details { display: flex; flex-direction: column; align-items: center; }
+      .contact-grid, .skills-grid, .projects-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="preloader">
+  <div class="preloader-content">
+    <h1 class="welcome-text" id="typewriter"></h1>
+    <div class="loader-line"></div>
+  </div>
+</div>
+
+<img src="picture1.png" alt="Background" class="global-bg">
+<div class="global-overlay"></div>
+
+<nav class="navbar navbar-expand-lg" id="mainNav">
+  <div class="container-fluid">
+    <a class="navbar-brand nav-animate" href="#">
+      <img src="logo.svg" alt="Logo"> 
+      M<span>.</span>ASMOLO
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav gap-1">
+        <li class="nav-item nav-animate"><a class="nav-link" href="#hero">Home</a></li>
+        <li class="nav-item nav-animate"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item nav-animate"><a class="nav-link" href="#skills">Skills</a></li>
+        <li class="nav-item nav-animate"><a class="nav-link" href="#projects">Projects</a></li>
+        <li class="nav-item nav-animate"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow hero-animate">Aspiring Developer &amp; Project Manager</div>
+    <div class="hero-headline hero-animate">
+      <span class="line1">Matthew.</span>
+      <span class="line2">Asmolo</span>
+    </div>
+    <div class="hero-sub hero-animate">Discover the</div>
+    <div class="hero-sub2 hero-animate">Portfolio Collection</div>
+    <div class="hero-btns hero-animate">
+      <a href="#projects" class="btn-gold">View Projects</a>
+      <a href="#contact"  class="btn-outline-gold">Hire Me</a>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-wrap">
+    <div class="section-label">Who I Am</div>
+    <div class="section-title">About <span>Me</span></div>
+    <div class="about-grid">
+      
+      <div class="about-image-container">
+        <img src="picture1.png" alt="Matthew Asmolo" class="about-image">
+      </div>
+
+      <div class="about-details">
+        <div class="about-text">
+          <p>I am a dedicated <strong>Information Systems student</strong> at La Verdad Christian College. My work bridges technical execution with strategic leadership.</p>
+          <p>From IS evaluation to building Java core systems and SQL databases, I deliver digital solutions that are both functional and user-centric.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-box"><div class="num">3+</div><div class="lbl">Projects Delivered</div></div>
+          <div class="stat-box"><div class="num">4+</div><div class="lbl">Tech Skills</div></div>
+          <div class="stat-box"><div class="num">IS</div><div class="lbl">LVCC Student</div></div>
+          <div class="stat-box"><div class="num">PH</div><div class="lbl">Pampanga-Based</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-label">Expertise</div>
+    <div class="section-title">Technical <span>Skills</span></div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h5 style="font-family:'Bebas Neue'; color:var(--gold);">Systems &amp; Management</h5>
+        <div class="skill-tags">
+          <span class="skill-tag">Project Management</span>
+          <span class="skill-tag">Systems Evaluation</span>
+          <span class="skill-tag">SWOT Analysis</span>
+          <span class="skill-tag">Bootstrap 5</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h5 style="font-family:'Bebas Neue'; color:var(--gold);">Programming &amp; Databases</h5>
+        <div class="skill-tags">
+          <span class="skill-tag">Java Core Logic</span>
+          <span class="skill-tag">SQL Queries</span>
+          <span class="skill-tag">JDBC</span>
+          <span class="skill-tag">Database Design</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-label">My Work</div>
+    <div class="section-title">Selected <span>Projects</span></div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-num">01</div>
+        <h4 style="font-family:'Cormorant Garamond';">FarmLAN TECH</h4>
+        <p style="font-size:0.8rem; color:var(--off); margin-bottom:15px;">Agricultural marketplace matching farmers and buyers with ROI modeling.</p>
+        <div><span class="ptag">Java</span><span class="ptag">SQL</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">02</div>
+        <h4 style="font-family:'Cormorant Garamond';">IS Evaluation</h4>
+        <p style="font-size:0.8rem; color:var(--off); margin-bottom:15px;">Operational audit using Leavitt's Diamond for inventory systems.</p>
+        <div><span class="ptag">Audit</span><span class="ptag">SWOT</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">03</div>
+        <h4 style="font-family:'Cormorant Garamond';">Java Core System</h4>
+        <p style="font-size:0.8rem; color:var(--off); margin-bottom:15px;">Java core logic with JDBC persistence and authentication.</p>
+        <div><span class="ptag">JDBC</span><span class="ptag">Auth</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-wrap">
+    <div class="section-label">Reach Out</div>
+    <div class="section-title">Get In <span>Touch</span></div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Let's work together.</h3>
+        <div class="contact-item"><div class="lbl">Full Name</div><div class="val">Matthew Asmolo</div></div>
+        <div class="contact-item"><div class="lbl">Email</div><div class="val">matthew.asmolo04@email.com</div></div>
+        <div class="contact-item"><div class="lbl">Phone</div><div class="val">0968-215-6982</div></div>
+        <div class="contact-item"><div class="lbl">Location</div><div class="val">Apalit, Pampanga, PH</div></div>
+      </div>
+      <div class="contact-form">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label>Your Name</label>
+            <input type="text" class="form-control" placeholder="Enter your name">
+          </div>
+          <div class="col-md-6">
+            <label>Email Address</label>
+            <input type="email" class="form-control" placeholder="email@example.com">
+          </div>
+          <div class="col-12">
+            <label>Your Message</label>
+            <textarea class="form-control" rows="5" placeholder="How can I help you?"></textarea>
+          </div>
+          <div class="col-12">
+            <button class="btn-gold" style="width:100%; letter-spacing:4px;">Send Message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 <span>Matthew Asmolo</span> · LVCC Information Systems · Pampanga, PH
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  window.addEventListener('load', () => {
+    const textElement = document.getElementById('typewriter');
+    const fullText = "Hi I'am Matthew, Welcome!";
+    let index = 0;
+
+    function typeEffect() {
+      if (index < fullText.length) {
+        textElement.innerHTML += fullText.charAt(index);
+        index++;
+        setTimeout(typeEffect, 80); 
+      }
+    }
+
+    setTimeout(typeEffect, 400);
+
+    const preloader = document.getElementById('preloader');
+    setTimeout(() => {
+      preloader.classList.add('preloader-hidden');
+    }, 3200); 
+  });
+
+  window.addEventListener('scroll', () => {
+    document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
+  });
+</script>
+</body>
+</html>
