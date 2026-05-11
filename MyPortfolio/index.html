@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Matthew Asmolo | Portfolio</title>
+  <!-- INSTRUCTOR FIX #4: Favicon added -->
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -75,7 +77,6 @@
       z-index: 10000;
     }
 
-    /* GLOBAL FIXED BACKGROUND - FIXED: Added pointer-events and transform to prevent scroll-jump */
     .global-bg {
       position: fixed;
       top: 0; left: 0;
@@ -88,7 +89,6 @@
       transform: translate3d(0,0,0);
     }
 
-    /* DARK OVERLAY */
     .global-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -97,7 +97,7 @@
       z-index: -1;
     }
 
-    /* NAVBAR - FIXED: Added mobile padding and centering adjustments */
+    /* INSTRUCTOR FIX #1a: Reduced desktop navbar padding from 18px to 12px */
     .navbar {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -108,7 +108,7 @@
     }
     
     @media (min-width: 992px) {
-      .navbar { padding: 18px 3rem 18px 3.5rem; }
+      .navbar { padding: 12px 3rem 12px 3.5rem; } /* was 18px, now 12px */
     }
 
     .navbar.scrolled { background: rgba(0,0,0,0.95) !important; border-bottom: 1px solid rgba(200,148,58,0.2); }
@@ -128,14 +128,29 @@
 
     @media (min-width: 992px) {
       .navbar-brand { font-size: 1.3rem; }
-      .navbar-brand img { height: 75px; width: 75px; }
+      .navbar-brand img { height: 65px; width: 65px; } /* slightly reduced to match tighter nav */
     }
 
     .navbar-toggler { border-color: rgba(200, 148, 58, 0.5); }
     .navbar-toggler-icon { filter: invert(1); }
 
-    .navbar-nav .nav-link { font-size: 0.72rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.75) !important; padding: 10px 18px !important; transition: 0.2s; }
+    .navbar-nav .nav-link { font-size: 0.72rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.75) !important; padding: 10px 18px !important; transition: 0.2s; position: relative; }
     .navbar-nav .nav-link:hover { color: var(--gold) !important; }
+
+    /* INSTRUCTOR FIX #1b: Active nav link style */
+    .navbar-nav .nav-link.active {
+      color: var(--gold) !important;
+    }
+    .navbar-nav .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 18px;
+      right: 18px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
 
     /* ANIMATIONS */
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -176,7 +191,6 @@
     .btn-outline-gold { border: 1px solid var(--gold); color: var(--gold); font-size: 0.68rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 12px 28px; text-decoration: none; display: inline-block; transition: 0.3s; }
     .btn-gold:hover, .btn-outline-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); color: #000; }
 
-    /* SECTION WRAP - FIXED: Balanced padding for mobile edges */
     .section-wrap { max-width: 1100px; margin: 0 auto; padding: 80px 1.5rem; }
     @media (min-width: 992px) {
       .section-wrap { padding: 120px 3rem; }
@@ -198,7 +212,6 @@
 
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: flex-start; }
     
-    /* ABOUT IMAGE - FIXED: Forced perfect 1:1 ratio for circle */
     .about-image-container { 
       padding: 0; 
       display: flex; 
@@ -231,11 +244,61 @@
     .stat-box .num { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--gold); line-height: 1; margin-bottom: 4px; }
     .stat-box .lbl { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--off); }
 
-    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-    .skill-tag { font-size: 0.68rem; padding: 6px 14px; border: 1px solid rgba(200,148,58,0.3); color: var(--off); text-transform: uppercase; letter-spacing: 1px; }
+    /* INSTRUCTOR FIX #2: Flexible skills grid using auto-fit */
+    .skills-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+      gap: 1.5rem; 
+    }
 
+    /* INSTRUCTOR FIX #2: Tag flow with flex-wrap and flex: 1 0 auto for filled look */
+    .skill-tags { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 8px; 
+      margin-top: 12px;
+    }
+    .skill-tag { 
+      font-size: 0.68rem; 
+      padding: 6px 14px; 
+      border: 1px solid rgba(200,148,58,0.3); 
+      color: var(--off); 
+      text-transform: uppercase; 
+      letter-spacing: 1px;
+      flex: 1 0 auto; /* allows tags to grow and fill the row */
+      text-align: center;
+    }
+
+    /* INSTRUCTOR FIX #5: Project cards clickable — hover lift effect */
     .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .project-card {
+      position: relative;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+      transition: 0.3s;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(200, 148, 58, 0.5);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .project-card .project-link-hint {
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 14px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: 0.3s;
+    }
+    .project-card:hover .project-link-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .project-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: rgba(200,148,58,0.1); position: absolute; top: 10px; right: 20px; }
     .ptag { font-size: 0.6rem; padding: 4px 10px; background: rgba(155,28,46,0.2); color: #e88899; border: 1px solid rgba(155,28,46,0.4); text-transform: uppercase; margin-right: 5px; }
 
@@ -248,13 +311,19 @@
     .form-control { background: rgba(255,255,255,0.05); border: 1px solid rgba(200,148,58,0.2); color: white; border-radius: 0; padding: 14px; font-size: 0.85rem; }
     .form-control:focus { background: rgba(255,255,255,0.08); border-color: var(--gold); box-shadow: none; color: white; }
 
+    /* INSTRUCTOR FIX #3: Lighter placeholder text for better contrast */
+    .form-control::placeholder {
+      color: rgba(200, 192, 180, 0.6);
+    }
+
     footer { background: rgba(0,0,0,0.9); border-top: 1px solid rgba(200,148,58,0.2); text-align: center; padding: 30px; font-size: 0.7rem; letter-spacing: 2px; color: var(--off); text-transform: uppercase; position: relative; z-index: 2; }
     footer span { color: var(--gold); }
 
     @media (max-width: 900px) {
       .about-grid { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
       .about-details { display: flex; flex-direction: column; align-items: center; }
-      .contact-grid, .skills-grid, .projects-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-grid, .projects-grid { grid-template-columns: 1fr; gap: 2rem; }
+      /* skills-grid already handled by auto-fit above */
     }
   </style>
 </head>
@@ -281,11 +350,11 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav gap-1">
-        <li class="nav-item nav-animate"><a class="nav-link" href="#hero">Home</a></li>
-        <li class="nav-item nav-animate"><a class="nav-link" href="#about">About</a></li>
-        <li class="nav-item nav-animate"><a class="nav-link" href="#skills">Skills</a></li>
-        <li class="nav-item nav-animate"><a class="nav-link" href="#projects">Projects</a></li>
-        <li class="nav-item nav-animate"><a class="nav-link" href="#contact">Contact</a></li>
+        <li class="nav-item nav-animate"><a class="nav-link" href="#hero" data-section="hero">Home</a></li>
+        <li class="nav-item nav-animate"><a class="nav-link" href="#about" data-section="about">About</a></li>
+        <li class="nav-item nav-animate"><a class="nav-link" href="#skills" data-section="skills">Skills</a></li>
+        <li class="nav-item nav-animate"><a class="nav-link" href="#projects" data-section="projects">Projects</a></li>
+        <li class="nav-item nav-animate"><a class="nav-link" href="#contact" data-section="contact">Contact</a></li>
       </ul>
     </div>
   </div>
@@ -314,7 +383,7 @@
     <div class="about-grid">
       
       <div class="about-image-container">
-        <img src="picture1.png" alt="Matthew Asmolo" class="about-image">
+        <img src="picture2.png" alt="Matthew Asmolo" class="about-image">
       </div>
 
       <div class="about-details">
@@ -323,7 +392,8 @@
           <p>From IS evaluation to building Java core systems and SQL databases, I deliver digital solutions that are both functional and user-centric.</p>
         </div>
         <div class="about-stats">
-          <div class="stat-box"><div class="num">3+</div><div class="lbl">Projects Delivered</div></div>
+          <!-- INSTRUCTOR FIX #4: Changed "3+" to "100% Student Project Success" -->
+          <div class="stat-box"><div class="num" style="font-size:1.6rem;">100%</div><div class="lbl">Student Project Success</div></div>
           <div class="stat-box"><div class="num">4+</div><div class="lbl">Tech Skills</div></div>
           <div class="stat-box"><div class="num">IS</div><div class="lbl">LVCC Student</div></div>
           <div class="stat-box"><div class="num">PH</div><div class="lbl">Pampanga-Based</div></div>
@@ -337,23 +407,26 @@
   <div class="section-wrap">
     <div class="section-label">Expertise</div>
     <div class="section-title">Technical <span>Skills</span></div>
+    <!-- INSTRUCTOR FIX #2: auto-fit flexible grid applied via CSS above -->
     <div class="skills-grid">
       <div class="skill-card">
+        <!-- INSTRUCTOR FIX #2: Renamed to "Systems & Management", Bootstrap 5 removed -->
         <h5 style="font-family:'Bebas Neue'; color:var(--gold);">Systems &amp; Management</h5>
         <div class="skill-tags">
           <span class="skill-tag">Project Management</span>
           <span class="skill-tag">Systems Evaluation</span>
           <span class="skill-tag">SWOT Analysis</span>
-          <span class="skill-tag">Bootstrap 5</span>
         </div>
       </div>
       <div class="skill-card">
-        <h5 style="font-family:'Bebas Neue'; color:var(--gold);">Programming &amp; Databases</h5>
+        <!-- INSTRUCTOR FIX #2: Bootstrap 5 moved here -->
+        <h5 style="font-family:'Bebas Neue'; color:var(--gold);">Programming &amp; Design</h5>
         <div class="skill-tags">
           <span class="skill-tag">Java Core Logic</span>
           <span class="skill-tag">SQL Queries</span>
           <span class="skill-tag">JDBC</span>
           <span class="skill-tag">Database Design</span>
+          <span class="skill-tag">Bootstrap 5</span>
         </div>
       </div>
     </div>
@@ -365,24 +438,28 @@
     <div class="section-label">My Work</div>
     <div class="section-title">Selected <span>Projects</span></div>
     <div class="projects-grid">
-      <div class="project-card">
+      <!-- INSTRUCTOR FIX #5: Cards are now anchor tags linking to GitHub/PDF -->
+      <a href="https://github.com/asmolomatthew" target="_blank" rel="noopener" class="project-card skill-card" style="text-decoration:none; color:inherit; display:block; position:relative;">
         <div class="project-num">01</div>
         <h4 style="font-family:'Cormorant Garamond';">FarmLAN TECH</h4>
         <p style="font-size:0.8rem; color:var(--off); margin-bottom:15px;">Agricultural marketplace matching farmers and buyers with ROI modeling.</p>
         <div><span class="ptag">Java</span><span class="ptag">SQL</span></div>
-      </div>
-      <div class="project-card">
+        <div class="project-link-hint">View on GitHub →</div>
+      </a>
+      <a href="https://github.com/asmolomatthew" target="_blank" rel="noopener" class="project-card skill-card" style="text-decoration:none; color:inherit; display:block; position:relative;">
         <div class="project-num">02</div>
         <h4 style="font-family:'Cormorant Garamond';">IS Evaluation</h4>
         <p style="font-size:0.8rem; color:var(--off); margin-bottom:15px;">Operational audit using Leavitt's Diamond for inventory systems.</p>
         <div><span class="ptag">Audit</span><span class="ptag">SWOT</span></div>
-      </div>
-      <div class="project-card">
+        <div class="project-link-hint">View Report →</div>
+      </a>
+      <a href="https://github.com/asmolomatthew" target="_blank" rel="noopener" class="project-card skill-card" style="text-decoration:none; color:inherit; display:block; position:relative;">
         <div class="project-num">03</div>
         <h4 style="font-family:'Cormorant Garamond';">Java Core System</h4>
         <p style="font-size:0.8rem; color:var(--off); margin-bottom:15px;">Java core logic with JDBC persistence and authentication.</p>
         <div><span class="ptag">JDBC</span><span class="ptag">Auth</span></div>
-      </div>
+        <div class="project-link-hint">View on GitHub →</div>
+      </a>
     </div>
   </div>
 </section>
@@ -403,6 +480,7 @@
         <div class="row g-3">
           <div class="col-md-6">
             <label>Your Name</label>
+            <!-- INSTRUCTOR FIX #3: Placeholder contrast improved via CSS ::placeholder above -->
             <input type="text" class="form-control" placeholder="Enter your name">
           </div>
           <div class="col-md-6">
@@ -428,6 +506,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+  // Preloader typewriter
   window.addEventListener('load', () => {
     const textElement = document.getElementById('typewriter');
     const fullText = "Hi I'M Matthew, Welcome!";
@@ -449,9 +528,29 @@
     }, 3200); 
   });
 
+  // Navbar scroll style
   window.addEventListener('scroll', () => {
     document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
   });
+
+  // INSTRUCTOR FIX #1b: Active nav link on scroll using IntersectionObserver
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.navbar-nav .nav-link[data-section]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.dataset.section === id);
+        });
+      }
+    });
+  }, {
+    rootMargin: '-40% 0px -55% 0px' // triggers when section is roughly in the middle of the viewport
+  });
+
+  sections.forEach(section => observer.observe(section));
 </script>
 </body>
 </html>
